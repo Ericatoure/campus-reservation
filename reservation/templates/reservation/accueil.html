@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Réservation de Salles - Accueil</title>
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts pour plus de légèreté -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        
+        /* Navbar plus douce */
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+        
+        /* Messages de feedback - DOUX et VISIBLE */
+        .alert {
+            border-radius: 16px;
+            border: none;
+            padding: 1rem 1.5rem;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .alert-success {
+            background: #e7f5e9;
+            color: #0b5e2e;
+            border-left: 6px solid #2b7a4b;
+        }
+        
+        .alert-error {
+            background: #fee9e7;
+            color: #91180e;
+            border-left: 6px solid #d32f2f;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* En-tête de section */
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+            color: #0f172a;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 0.75rem;
+        }
+        
+        /* CARTES - AÉRÉES, ÉPURÉES, ÉLÉGANTES */
+        .salle-card {
+            background: white;
+            border: none;
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+            height: 100%;
+            border: 1px solid rgba(226, 232, 240, 0.4);
+        }
+        
+        .salle-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.04);
+            border-color: #cbd5e1;
+        }
+        
+        .salle-nom {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .salle-nom i {
+            color: #3b7cff;
+            font-size: 1.5rem;
+        }
+        
+        .salle-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .salle-detail i {
+            width: 20px;
+            color: #64748b;
+        }
+        
+        .badge-equipement {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+            margin: 0.2rem;
+        }
+        
+        /* FORMULAIRE - CARTE BLANCHE PROPRE */
+        .form-card {
+            background: white;
+            border-radius: 28px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.02);
+            border: 1px solid #edf2f7;
+            margin-top: 2rem;
+        }
+        
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 16px;
+            border: 1.5px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #3b7cff;
+            box-shadow: 0 0 0 4px rgba(59, 124, 255, 0.1);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* BOUTON VERT DYNAMIQUE - CONFIANCE */
+        .btn-reserver {
+            background: #0f5e3f;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 40px;
+            width: 100%;
+            color: white;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+        
+        .btn-reserver:hover {
+            background: #0a4a31;
+            transform: scale(1.01);
+            box-shadow: 0 10px 25px rgba(15, 94, 63, 0.2);
+        }
+        
+        .btn-reserver i {
+            font-size: 1.2rem;
+        }
+        
+        /* RÉSERVATIONS RÉCENTES - LÉGER */
+        .reservation-mini-card {
+            background: white;
+            border-radius: 18px;
+            padding: 1rem 1.25rem;
+            border: 1px solid #edf2f7;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .statut-badge {
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .statut-attente {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .statut-validee {
+            background: #e7f5e9;
+            color: #0b5e2e;
+        }
+        
+        /* FOOTER LÉGER */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #64748b;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* RESPONSIVE PARFAIT */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .salle-card {
+                padding: 1.25rem;
+            }
+            .form-card {
+                padding: 1.5rem;
+            }
+            .navbar-brand {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR LÉGÈRE ET ÉPURÉE -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'reservation:accueil' %}">
+                <i class="bi bi-calendar-check" style="color: #3b7cff; margin-right: 8px;"></i>
+                Campus<span style="font-weight: 300;">Réservation</span>
+            </a>
+            <div class="navbar-nav ms-auto">
+                {% if user.is_authenticated %}
+                    <span class="nav-item nav-link">
+                        <i class="bi bi-person-circle"></i> {{ user.username }} 
+                        <span class="badge bg-light text-dark ms-2">{{ user.get_statut_display }}</span>
+                    </span>
+                    <a class="nav-link" href="{% url 'reservation:mes_reservations' %}">
+                        <i class="bi bi-list-check"></i> Mes résas
+                    </a>
+                    <a class="nav-link" href="{% url 'reservation:deconnexion' %}">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                {% else %}
+                    <a class="nav-link" href="{% url 'reservation:connexion' %}">Connexion</a>
+                    <a class="nav-link" href="{% url 'reservation:inscription' %}">Inscription</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- MESSAGES DE FEEDBACK INSTANTANÉS -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <i class="bi {% if message.tags == 'success' %}bi-check-circle-fill{% else %}bi-exclamation-triangle-fill{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- BIENVENUE PERSONNALISÉE -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="section-title">
+                {% if user.is_authenticated %}
+                    👋 Bonjour, {{ user.first_name|default:user.username }}
+                {% else %}
+                    🏛️ Salles disponibles
+                {% endif %}
+            </h1>
+            <span class="text-muted">
+                <i class="bi bi-building"></i> {{ salles|length }} salles
+            </span>
+        </div>
+
+        <!-- SECTION CARTES DES SALLES - 4 CARTES AÉRÉES -->
+        <div class="row g-4 mb-5">
+            {% for salle in salles %}
+            <div class="col-md-6 col-lg-3">
+                <div class="salle-card">
+                    <div class="salle-nom">
+                        <i class="bi bi-door-open"></i>
+                        {{ salle.nom }}
+                    </div>
+                    <div class="salle-detail">
+                        <i class="bi bi-people"></i> {{ salle.capacite }} personnes
+                    </div>
+                    <div class="salle-detail">
+                        <i class="bi bi-geo-alt"></i> {{ salle.localisation }}
+                    </div>
+                    <div class="mt-3">
+                        {% if salle.equipements %}
+                            {% for equip in salle.equipements.split %}
+                                <span class="badge-equipement">
+                                    <i class="bi bi-wifi"></i> {{ equip }}
+                                </span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="badge-equipement">Équipement standard</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <i class="bi bi-building" style="font-size: 3rem; color: #cbd5e1;"></i>
+                <p class="text-muted mt-3">Aucune salle disponible pour le moment</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if user.is_authenticated %}
+        <!-- FORMULAIRE DE RÉSERVATION - CARTE PROPRE ET INVITANTE -->
+        <div class="form-card">
+            <div class="form-title">
+                <i class="bi bi-pencil-square" style="color: #0f5e3f;"></i>
+                Nouvelle réservation
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            <i class="bi bi-door-closed"></i> Salle
+                        </label>
+                        {{ form.salle }}
+                        {% if form.salle.errors %}
+                            <div class="text-danger small mt-1">{{ form.salle.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label class="form-label">
+                            <i class="bi bi-calendar"></i> Date
+                        </label>
+                        {{ form.date }}
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label class="form-label">
+                            <i class="bi bi-clock"></i> Début
+                        </label>
+                        {{ form.heure_debut }}
+                    </div>
+                    
+                    <div class="col-md-2">
+                        <label class="form-label">
+                            <i class="bi bi-clock-history"></i> Fin
+                        </label>
+                        {{ form.heure_fin }}
+                    </div>
+                    
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button type="submit" class="btn-reserver">
+                            <i class="bi bi-check2-circle"></i> 
+                            <span class="d-none d-md-inline">Réserver</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- PETITS CONSEILS -->
+            <div class="mt-4 text-muted small">
+                <i class="bi bi-info-circle"></i> 
+                Réservation de 8h à 20h • Créneaux d'1h • Validation sous 24h
+            </div>
+        </div>
+
+        <!-- APERÇU DES DERNIÈRES RÉSERVATIONS -->
+        {% if reservations %}
+        <div class="mt-5">
+            <h3 class="section-title" style="font-size: 1.4rem;">
+                <i class="bi bi-clock-history"></i> Vos dernières réservations
+            </h3>
+            <div class="row">
+                {% for resa in reservations %}
+                <div class="col-md-6">
+                    <div class="reservation-mini-card">
+                        <div>
+                            <strong>{{ resa.salle.nom }}</strong><br>
+                            <small class="text-muted">
+                                <i class="bi bi-calendar"></i> {{ resa.date|date:"d/m/Y" }}
+                                <i class="bi bi-clock ms-2"></i> {{ resa.heure_debut|time:"H:i" }} - {{ resa.heure_fin|time:"H:i" }}
+                            </small>
+                        </div>
+                        <span class="statut-badge 
+                            {% if resa.statut == 'En attente' %}statut-attente
+                            {% elif resa.statut == 'Validée' %}statut-validee
+                            {% endif %}">
+                            {{ resa.statut }}
+                        </span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-end mt-2">
+                <a href="{% url 'reservation:mes_reservations' %}" class="text-decoration-none">
+                    Voir toutes mes réservations <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        {% else %}
+        <!-- MESSAGE INVITANT À SE CONNECTER -->
+        <div class="text-center py-5">
+            <div class="form-card" style="background: #f1f5f9;">
+                <i class="bi bi-person-lock" style="font-size: 3rem; color: #3b7cff;"></i>
+                <h3 class="mt-3">Connectez-vous pour réserver</h3>
+                <p class="text-muted">Accédez à toutes les salles et gérez vos réservations</p>
+                <a href="{% url 'reservation:connexion' %}" class="btn btn-primary px-5 py-2" style="border-radius: 40px;">
+                    Se connecter
+                </a>
+                <a href="{% url 'reservation:inscription' %}" class="btn btn-outline-primary px-5 py-2 ms-2" style="border-radius: 40px;">
+                    S'inscrire
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- FOOTER ULTRA LÉGER -->
+    <div class="footer">
+        <div class="container">
+            <i class="bi bi-building"></i> Campus Réservation • Design épuré pour une clarté visuelle
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

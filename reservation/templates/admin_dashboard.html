@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Dashboard Admin - Campus Réservation</title>
+    <!-- Bootstrap 5 + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+            padding: 1rem 0;
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+            color: #0f172a;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        /* CARTES STATS - MINIMALISTES */
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid #edf2f7;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .stat-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.02);
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0;
+            line-height: 1;
+            color: #0f172a;
+        }
+        
+        .stat-content p {
+            color: #64748b;
+            margin-bottom: 0;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* CARTES DE LISTES */
+        .list-card {
+            background: white;
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid #edf2f7;
+            height: 100%;
+        }
+        
+        .list-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        /* ITEMS DE LISTES */
+        .user-item, .reservation-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .user-item:last-child, .reservation-item:last-child {
+            border-bottom: none;
+        }
+        
+        .user-info, .reservation-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .user-email {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        
+        .statut-badge {
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .badge-attente {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-validee {
+            background: #e7f5e9;
+            color: #0b5e2e;
+        }
+        
+        .badge-refusee {
+            background: #fee9e7;
+            color: #91180e;
+        }
+        
+        .badge-admin {
+            background: #e9f0ff;
+            color: #3b7cff;
+        }
+        
+        .badge-enseignant {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+        
+        .badge-delegue {
+            background: #e6fffa;
+            color: #0f5e3f;
+        }
+        
+        .btn-action {
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: 1.5px solid transparent;
+        }
+        
+        .btn-approve {
+            background: #e7f5e9;
+            color: #0b5e2e;
+            border-color: #c3e6cb;
+        }
+        
+        .btn-approve:hover {
+            background: #0b5e2e;
+            color: white;
+            border-color: #0b5e2e;
+        }
+        
+        .btn-validate {
+            background: #e7f5e9;
+            color: #0b5e2e;
+            border-color: #c3e6cb;
+        }
+        
+        .btn-validate:hover {
+            background: #0b5e2e;
+            color: white;
+        }
+        
+        .btn-reject {
+            background: #fee9e7;
+            color: #91180e;
+            border-color: #fccac7;
+        }
+        
+        .btn-reject:hover {
+            background: #91180e;
+            color: white;
+        }
+        
+        .voir-tout {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #3b7cff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .voir-tout:hover {
+            text-decoration: underline;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #94a3b8;
+            font-style: italic;
+        }
+        
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #64748b;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .stat-card {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR ADMIN -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'reservation:accueil' %}">
+                <i class="bi bi-calendar-check" style="color: #3b7cff; margin-right: 8px;"></i>
+                Campus<span style="font-weight: 300;">Réservation</span>
+                <span class="badge bg-dark ms-2">Admin</span>
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="nav-item nav-link">
+                    <i class="bi bi-shield-lock"></i> {{ user.username }}
+                    <span class="badge bg-dark text-white ms-2">{{ user.get_statut_display }}</span>
+                </span>
+                <a class="nav-link" href="{% url 'reservation:accueil' %}">
+                    <i class="bi bi-door-open"></i> Salles
+                </a>
+                <a class="nav-link" href="{% url 'reservation:deconnexion' %}">
+                    <i class="bi bi-box-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- MESSAGES -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <i class="bi {% if message.tags == 'success' %}bi-check-circle-fill{% else %}bi-exclamation-triangle-fill{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- EN-TÊTE -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="section-title">
+                <i class="bi bi-speedometer2"></i> Dashboard administration
+            </h1>
+            <a href="/admin/" class="btn btn-outline-dark" style="border-radius: 40px;" target="_blank">
+                <i class="bi bi-gear"></i> Interface d'administration
+            </a>
+        </div>
+
+        <!-- STATISTIQUES RAPIDES - 4 CARTES -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e9f0ff;">
+                        <i class="bi bi-people" style="color: #3b7cff;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ total_utilisateurs|default:"0" }}</h3>
+                        <p>Utilisateurs</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fff3cd;">
+                        <i class="bi bi-hourglass-split" style="color: #856404;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ utilisateurs_en_attente|default:"0" }}</h3>
+                        <p>En attente</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e7f5e9;">
+                        <i class="bi bi-calendar-check" style="color: #0b5e2e;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ reservations_en_attente|default:"0" }}</h3>
+                        <p>Réservations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #f1f5f9;">
+                        <i class="bi bi-building" style="color: #475569;"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>{{ total_salles|default:"0" }}</h3>
+                        <p>Salles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2 COLONNES : COMPTES EN ATTENTE + RÉSERVATIONS À TRAITER -->
+        <div class="row g-4">
+            <!-- COLONNE GAUCHE - COMPTES EN ATTENTE -->
+            <div class="col-lg-6">
+                <div class="list-card">
+                    <div class="list-card-title">
+                        <i class="bi bi-person-badge" style="color: #3b7cff;"></i>
+                        Comptes en attente d'approbation
+                        <span class="badge bg-warning ms-auto">{{ utilisateurs_en_attente|default:"0" }}</span>
+                    </div>
+                    
+                    {% if utilisateurs_non_approuves %}
+                        {% for user in utilisateurs_non_approuves %}
+                        <div class="user-item">
+                            <div class="user-info">
+                                <span class="user-name">
+                                    <i class="bi bi-person-circle"></i>
+                                    {{ user.username }}
+                                    <span class="statut-badge 
+                                        {% if user.statut == 'administrateur' %}badge-admin
+                                        {% elif user.statut == 'enseignant' %}badge-enseignant
+                                        {% else %}badge-delegue{% endif %}">
+                                        {{ user.get_statut_display }}
+                                    </span>
+                                </span>
+                                <span class="user-email">
+                                    <i class="bi bi-envelope"></i> {{ user.email }}
+                                    {% if user.telephone %}
+                                        • <i class="bi bi-telephone"></i> {{ user.telephone }}
+                                    {% endif %}
+                                </span>
+                                <small class="text-muted mt-1">
+                                    <i class="bi bi-clock"></i> {{ user.date_inscription|date:"d/m/Y H:i" }}
+                                </small>
+                            </div>
+                            <div>
+                                <a href="{% url 'admin:reservation_utilisateur_changelist' %}" 
+                                   class="btn-action btn-approve"
+                                   target="_blank">
+                                    <i class="bi bi-check-lg"></i> Approuver
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        {% if utilisateurs_en_attente > 5 %}
+                        <a href="/admin/reservation/utilisateur/?est_approuve__exact=0" 
+                           class="voir-tout" target="_blank">
+                            Voir tous les {{ utilisateurs_en_attente }} comptes en attente
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        {% endif %}
+                    {% else %}
+                        <div class="empty-message">
+                            <i class="bi bi-check2-circle" style="font-size: 2rem;"></i>
+                            <p class="mt-2 mb-0">Aucun compte en attente</p>
+                            <small>Tous les comptes sont approuvés</small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- COLONNE DROITE - RÉSERVATIONS À TRAITER -->
+            <div class="col-lg-6">
+                <div class="list-card">
+                    <div class="list-card-title">
+                        <i class="bi bi-calendar-check" style="color: #0b5e2e;"></i>
+                        Réservations à valider
+                        <span class="badge bg-warning ms-auto">{{ reservations_en_attente|default:"0" }}</span>
+                    </div>
+                    
+                    {% if reservations_a_traiter %}
+                        {% for resa in reservations_a_traiter %}
+                        <div class="reservation-item">
+                            <div class="reservation-info">
+                                <div class="user-name">
+                                    <i class="bi bi-door-open"></i>
+                                    {{ resa.salle.nom }}
+                                    <span class="statut-badge badge-attente">
+                                        <i class="bi bi-hourglass-split"></i> En attente
+                                    </span>
+                                </div>
+                                <small class="text-muted">
+                                    <i class="bi bi-person"></i> {{ resa.utilisateur.username }}
+                                    <span class="badge bg-light">{{ resa.utilisateur.get_statut_display }}</span>
+                                </small>
+                                <small class="text-muted d-block mt-1">
+                                    <i class="bi bi-calendar"></i> {{ resa.date|date:"l d F Y" }}
+                                    <i class="bi bi-clock ms-2"></i> {{ resa.heure_debut|time:"H:i" }} - {{ resa.heure_fin|time:"H:i" }}
+                                </small>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'admin:reservation_reservation_changelist' %}" 
+                                   class="btn-action btn-validate"
+                                   target="_blank">
+                                    <i class="bi bi-check-lg"></i>
+                                </a>
+                                <a href="{% url 'admin:reservation_reservation_changelist' %}" 
+                                   class="btn-action btn-reject"
+                                   target="_blank">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        {% if reservations_en_attente > 5 %}
+                        <a href="/admin/reservation/reservation/?statut__exact=En+attente" 
+                           class="voir-tout" target="_blank">
+                            Voir toutes les {{ reservations_en_attente }} réservations
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        {% endif %}
+                    {% else %}
+                        <div class="empty-message">
+                            <i class="bi bi-calendar-check" style="font-size: 2rem;"></i>
+                            <p class="mt-2 mb-0">Aucune réservation en attente</p>
+                            <small>Toutes les réservations sont traitées</small>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- LIENS RAPIDES ADMIN -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="list-card">
+                    <div class="list-card-title">
+                        <i class="bi bi-lightning-charge"></i>
+                        Actions rapides
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <a href="/admin/reservation/salle/add/" class="btn btn-outline-primary w-100" style="border-radius: 40px;" target="_blank">
+                                <i class="bi bi-plus-circle"></i> Ajouter une salle
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/admin/reservation/utilisateur/" class="btn btn-outline-secondary w-100" style="border-radius: 40px;" target="_blank">
+                                <i class="bi bi-people"></i> Gérer les utilisateurs
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/admin/reservation/reservation/" class="btn btn-outline-secondary w-100" style="border-radius: 40px;" target="_blank">
+                                <i class="bi bi-calendar"></i> Toutes les réservations
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="/admin/" class="btn btn-dark w-100" style="border-radius: 40px;" target="_blank">
+                                <i class="bi bi-gear"></i> Admin complet
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="container">
+            <i class="bi bi-shield-lock"></i> Espace administrateur • Gestion des comptes et réservations
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
