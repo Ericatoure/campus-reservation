@@ -18,8 +18,10 @@ services:
         fromDatabase:
           name: reservation-db
           property: connectionString
+    plan: free
 
 databases:
   - name: reservation-db
     databaseName: reservation
     user: admin
+    plan: free
